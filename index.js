@@ -136,7 +136,7 @@ async function run() {
                 const id = req.params.id
                 const query = { _id: new ObjectId(id) }
                 const options = { upsert: true };
-                const updatedCoffee = req.body()
+                const updatedCoffee = req.body
                 const coffee = {
                     $set: {
                         name: updatedCoffee.name,
@@ -152,7 +152,7 @@ async function run() {
                 const result = await coffeeCollection.updateOne(query, coffee, options)
                 res.send(result)
             } catch {
-                console.error('Error update coffee: ', error.message)
+                console.error('Error update coffee: ', error.message);
                 res.status(500).send({ error: "Failed to updated coffee" })
             }
         })
