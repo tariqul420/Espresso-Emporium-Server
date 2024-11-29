@@ -131,6 +131,32 @@ async function run() {
             }
         });
 
+        app.put('/coffees/:id', async (req, res) => {
+            try {
+                const id = req.params.id
+                const query = { _id: new ObjectId(id) }
+                const options = { upsert: true };
+                const updatedCoffee = req.body()
+                const coffee = {
+                    $set: {
+                        name: updatedCoffee.name,
+                        chef: updatedCoffee.chef,
+                        supplier: updatedCoffee.supplier,
+                        taste: updatedCoffee.taste,
+                        category: updatedCoffee.category,
+                        details: updatedCoffee.details,
+                        photo: updatedCoffee.photo,
+                        price: updatedCoffee.price
+                    }
+                }
+                const result = await coffeeCollection.updateOne(query, coffee, options)
+                res.send(result)
+            } catch {
+                console.error('Error update coffee: ', error.message)
+                res.status(500).send({ error: "Failed to updated coffee" })
+            }
+        })
+
         app.delete('/coffees/:id', async (req, res) => {
             try {
                 const id = req.params.id;
