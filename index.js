@@ -122,7 +122,7 @@ async function run() {
         app.get('/coffees/:id', async (req, res) => {
             try {
                 const id = req.params.id;
-                const query = { _id: ObjectId(id) };
+                const query = { _id: new ObjectId(id) };
                 const result = await coffeeCollection.findOne(query);
                 res.send(result);
             } catch (error) {
@@ -134,7 +134,7 @@ async function run() {
         app.delete('/coffees/:id', async (req, res) => {
             try {
                 const id = req.params.id;
-                const query = { _id: ObjectId(id) };
+                const query = { _id: new ObjectId(id) };
                 const result = await coffeeCollection.deleteOne(query);
                 res.send(result);
             } catch (error) {
