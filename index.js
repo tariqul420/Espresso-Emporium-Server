@@ -112,16 +112,34 @@ async function run() {
         })
 
         // Update last login time
-        app.patch('/users', async (req, res, next) => {
+        app.patch('/users/last-SignIn-Time', async (req, res, next) => {
             try {
                 const email = req.body.email
                 const query = { email: email }
                 const lastSignInTime = {
                     $set: {
-                        lastSignInTime: req.body.lastSignInTime
+                        lastSignInTime: req.body.lastSignInTime,
                     }
                 }
                 const result = await userCollection.updateOne(query, lastSignInTime)
+                res.send(result)
+            } catch (error) {
+                next(error)
+            }
+        })
+
+        //update user profile
+        app.patch('/users/update-user-profile', async (req, res, next) => {
+            try {
+                const email = req.body.email
+                const query = { email: email }
+                const updateUserProfile = {
+                    $set: {
+                        fullName: req.body.fullName,
+                        photoUrl: req.body.photoUrl
+                    }
+                }
+                const result = await userCollection.insertOne(query, updateUserProfile)
                 res.send(result)
             } catch (error) {
                 next(error)
